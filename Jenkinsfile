@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('download') {
             steps{
-                git 'https://github.com/purnachandraredddy/maven-1.git'
+                git branch: 'main', url: 'https://github.com/purnachandraredddy/maven-1.git'
             }
         }
         stage('build'){
