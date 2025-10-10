@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('download') {
             steps{
-                git 'git@github.com:purnachandraredddy/jenkins-maven.git'
+                git 'https://github.com/purnachandraredddy/maven-1.git'
             }
         }
         stage('build'){
