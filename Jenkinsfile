@@ -13,8 +13,20 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'scp /home/ubuntu/.jenkins/workspace/Development1/webapp/target/webapp.war ubuntu@172.31.16.199:/var/lib/tomcat10/webapps/testapp.war'
+                sh 'scp /home/ubuntu/.jenkins/workspace/Development/webapp/target/webapp.war ubuntu@172.31.16.199:/var/lib/tomcat9/webapps/testapp.war'
             }
-        } 
+        }
+        stage('test'){
+            steps{
+                git 'git@github.com:purnachandraredddy/Testing.git'
+                sh 'java -jar /home/ubuntu/.jenkins/workspace/Development/testing.jar'
+            }
+        }
+        stage('delievery'){
+            steps{
+                 sh 'scp /home/ubuntu/.jenkins/workspace/Development/webapp/target/webapp.war ubuntu@172.31.29.123:/var/lib/tomcat9/webapps/prodapp.war'
+
+            }
+        }
     }
 }
