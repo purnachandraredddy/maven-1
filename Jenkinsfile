@@ -13,7 +13,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'scp /home/ubuntu/.jenkins/workspace/Development/webapp/target/webapp.war ubuntu@172.31.18.46:/var/lib/tomcat10/webapps/testapp.war'
+                sh 'scp /home/ubuntu/.jenkins/workspace/Development/webapp/target/webapp.war ubuntu@172.31.18.46:/tmp/testapp.war'
+                sh 'ssh ubuntu@172.31.18.46 "sudo mv /tmp/testapp.war /var/lib/tomcat10/webapps/testapp.war && sudo chown tomcat:tomcat /var/lib/tomcat10/webapps/testapp.war'
             }
         }
         stage('test'){
