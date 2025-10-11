@@ -1,32 +1,26 @@
-pipeline {
+pipeline{
     agent any 
     stages {
-        stage('download') {
+        stage('Download'){
             steps{
                 git branch: 'main', url: 'https://github.com/purnachandraredddy/maven-1.git'
             }
         }
-        stage('build'){
+        stage('Build'){
             steps{
-                sh 'mvn package'
+                 sh '/opt/homebrew/bin/mvn package'
             }
         }
-        stage('Deploy') {
-            steps {
-                sh 'scp /home/ubuntu/.jenkins/workspace/Development/webapp/target/webapp.war ubuntu@172.31.18.46:/tmp/testapp.war'
-                sh 'ssh ubuntu@172.31.18.46 "sudo mv /tmp/testapp.war /var/lib/tomcat10/webapps/testapp.war && sudo chown tomcat:tomcat /var/lib/tomcat10/webapps/testapp.war"'
+        stage('deploy'){
+            steps{
+                sh 'scp /Users/purnachandrareddypeddasura/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war purna@192.168.64.7:/tmp/testapp.war'
+                sh 'ssh purna@192.168.64.7 "sudo mv /tmp/testapp.war /var/lib/tomcat10/webapps/testapp.war && sudo chown tomcat:tomcat /var/lib/tomcat10/webapps/testapp.war"'
             }
         }
         stage('test'){
             steps{
-                git branch: 'main', url: 'https://github.com/purnachandraredddy/Testing.git'
-                sh 'java -jar /home/ubuntu/.jenkins/workspace/Development/testing.jar'
-            }
-        }
-        stage('delievery'){
-            steps{
-                 sh 'scp /home/ubuntu/.jenkins/workspace/Development/webapp/target/webapp.war ubuntu@172.31.31.249:/var/lib/tomcat10/webapps/prodapp.war'
-
+                    git branch: 'master', url: 'https://github.com/purnachandraredddy/Testing.git'
+                    sh 'java -jar /Users/purnachandrareddypeddasura/.jenkins/workspace/ScriptedPipeline/testing.jar'
             }
         }
     }
