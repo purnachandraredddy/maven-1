@@ -13,14 +13,14 @@ pipeline{
         }
         stage('deploy'){
             steps{
-                sh 'scp /Users/purnachandrareddypeddasura/.jenkins/workspace/ScriptedPipeline/webapp/target/webapp.war purna@192.168.64.7:/tmp/testapp.war'
+                sh 'scp /Users/purnachandrareddypeddasura/.jenkins/workspace/declarative pipeline/webapp/target/webapp.war purna@192.168.64.7:/tmp/testapp.war'
                 sh 'ssh purna@192.168.64.7 "sudo mv /tmp/testapp.war /var/lib/tomcat10/webapps/testapp.war && sudo chown tomcat:tomcat /var/lib/tomcat10/webapps/testapp.war"'
             }
         }
         stage('test'){
             steps{
                     git branch: 'master', url: 'https://github.com/purnachandraredddy/Testing.git'
-                    sh 'java -jar /Users/purnachandrareddypeddasura/.jenkins/workspace/ScriptedPipeline/testing.jar'
+                    sh 'java -jar /Users/purnachandrareddypeddasura/.jenkins/workspace/declarative pipeline/testing.jar'
             }
         }
     }
