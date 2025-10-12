@@ -11,7 +11,7 @@ pipeline
             {
                 script
                 {
-                    cicd.gitDownload('main','maven-1')
+                    cicd.gitDownload('payments','maven-1')
                 }
             }
         }
@@ -20,29 +20,6 @@ pipeline
             steps{
                 script{
                     cicd.buildArtifact()
-                }
-            }
-        }
-        stage("deploy"){
-            steps{
-                script{
-                    cicd.deployTomcat('libraries','purna','192.168.64.7','testapp')
-                }
-            }
-        }
-        stage('test'){
-            steps{
-                script{
-                    cicd.gitDownload('master','Testing')
-                    cicd.testApplication('libraries')
-                }
-            }
-        }
-        stage('delievery')
-        {
-            steps{
-                script{
-                    cicd.deployTomcat('libraries','purnachandra','192.168.64.5','prodapp')
                 }
             }
         }
