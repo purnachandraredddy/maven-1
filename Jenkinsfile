@@ -1,32 +1,49 @@
-pipeline{
-    agent any 
-    stages {
-        stage('Download'){
-            steps{
-                git branch: 'main', url: 'https://github.com/purnachandraredddy/maven-1.git'
+@Library("mysharedlibrary")_
+
+pipeline
+{
+    agent any
+    stages
+    {
+        stage('Download')
+        {
+            steps
+            {
+                script
+                {
+                    cicd.gitDownload('main','maven-1')
+                }
             }
         }
-        stage('Build'){
+        stage('Build')
+        {
             steps{
-                 sh '/opt/homebrew/bin/mvn package'
+                script{
+                    cicd.buildArtifact()
+                }
             }
         }
-        stage('deploy'){
+        stage("deploy"){
             steps{
-                sh 'scp /Users/purnachandrareddypeddasura/.jenkins/workspace/declarative-pipeline/webapp/target/webapp.war purna@192.168.64.7:/tmp/testapp.war'
-                sh 'ssh purna@192.168.64.7 "sudo mv /tmp/testapp.war /var/lib/tomcat10/webapps/testapp.war && sudo chown tomcat:tomcat /var/lib/tomcat10/webapps/testapp.war"'
+                script{
+                    cicd.deployTomcat('libraries','purna','192.168.64.7','testapp')
+                }
             }
         }
         stage('test'){
             steps{
-                    git branch: 'master', url: 'https://github.com/purnachandraredddy/Testing.git'
-                    sh 'java -jar /Users/purnachandrareddypeddasura/.jenkins/workspace/declarative-pipeline/testing.jar'
+                script{
+                    cicd.gitDownload('master','Testing')
+                    cicd.testApplication('libraries')
+                }
             }
         }
-        stage('delievery'){
+        stage('delievery')
+        {
             steps{
-                sh 'scp /Users/purnachandrareddypeddasura/.jenkins/workspace/declarative-pipeline/webapp/target/webapp.war purnachandra@192.168.64.5:/tmp/prodapp.war'
-                sh 'ssh purnachandra@192.168.64.5 "sudo mv /tmp/prodapp.war /var/lib/tomcat10/webapps/prodapp.war && sudo chown tomcat:tomcat /var/lib/tomcat10/webapps/prodapp.war"'
+                script{
+                    cicd.deployTomcat('libraries','purnachandra','192.168.64.5','prodapp')
+                }
             }
         }
     }
