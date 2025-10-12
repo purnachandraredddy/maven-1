@@ -23,5 +23,11 @@ pipeline{
                     sh 'java -jar /Users/purnachandrareddypeddasura/.jenkins/workspace/declarative-pipeline/testing.jar'
             }
         }
+        stage('delievery'){
+            steps{
+                sh 'scp /Users/purnachandrareddypeddasura/.jenkins/workspace/declarative-pipeline/webapp/target/webapp.war purnachandra@192.168.64.5:/tmp/prodapp.war'
+                sh 'ssh purnachandra@192.168.64.5 "sudo mv /tmp/prodapp.war /var/lib/tomcat10/webapps/prodapp.war && sudo chown tomcat:tomcat /var/lib/tomcat10/webapps/prodapp.war"'
+            }
+        }
     }
 }
