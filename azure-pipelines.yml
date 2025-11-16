@@ -8,6 +8,4 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: |
-      git clone 
-      https://github.com/purnachandraredddy/maven-1.git
+    script: 'git clone https://github.com/purnachandraredddy/maven-1.git'
