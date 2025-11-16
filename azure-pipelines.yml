@@ -9,3 +9,9 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'git clone https://github.com/purnachandraredddy/maven-1.git'
+
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'cd /home/azureuser/myagent/_work/1/s;mvn package'
